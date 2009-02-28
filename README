@@ -1,0 +1,38 @@
+PluginMigrations
+================
+
+Rake tasks for running plugin migrations.
+
+
+Usage
+=====
+
+$ rake db:migrate                                                  # Migrate application and plugins
+$ rake db:migrate:application                                      # Migrate only the application
+$ rake db:migrate:plugins                                          # Migrate all the plugins
+$ rake db:migrate:plugins PLUGIN=foo                               # Migrate "foo"
+$ rake db:migrate:plugins PLUGIN=foo PLUGIN_VERSION=1              # Migrate "foo" to version 1
+$ rake db:migrate:plugins PLUGIN=foo PLUGIN_VERSION=20090228035457 # Migrate "foo" to version 20090228035457
+$ rake db:migrate:plugins:down PLUGIN=foo PLUGIN_VERSION=1         # Migrate down "foo" to version 1
+$ rake db:migrate:plugins:up PLUGIN=foo PLUGIN_VERSION=1           # Migrate up "foo" to version 1
+$ rake db:migrate:redo                                             # Migrate again the last step from the application
+$ rake db:migrate:reset                                            # Migrate down then up migrations from application and plugins
+$ rake db:rollback                                                 # Migrate down the application of one step
+$ rake db:rollback STEP=3                                          # Migrate down the application of three steps
+$ rake db:migrate:up VERSION=1                                     # Migrate up the application to version 1
+$ rake db:migrate:down VERSION=1                                   # Migrate down the application to version 1
+$ rake db:plugins:redo PLUGIN=foo                                  # Migrate again the last step for "foo"
+$ rake db:plugins:reset PLUGIN=foo                                 # Migrate down then up migrations from "foo"
+$ rake db:plugins:rollback PLUGIN=foo                              # Migrate down "foo" of one step
+$ rake db:plugins:rollback PLUGIN=foo STEP=3                       # Migrate down "foo" of three steps
+$ rake db:version                                                  # Print the application version value
+$ rake db:plugins:version PLUGIN=foo                               # Print the "foo" version value
+
+
+When you need to rename a plugin, run:
+
+$ script/plugin rename cached-models cached_models
+
+
+
+Copyright (c) 2009 Luca Guidi, released under the MIT license
