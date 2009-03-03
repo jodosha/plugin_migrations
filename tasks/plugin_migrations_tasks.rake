@@ -1,6 +1,6 @@
 namespace :db do
   desc "Migrate the database through scripts in db/migrate and update db/schema.rb by invoking db:schema:dump. Target specific version with VERSION=x. Turn off output with VERBOSE=false."
-  task :migrate => ['db:migrate:application', 'db:migrate:plugins']
+  task :migrate => ['db:migrate:plugins', 'db:migrate:application']
 
   namespace :migrate do
     desc "Run migrations from application"
@@ -53,10 +53,10 @@ namespace :db do
   desc "Raises an error if there are pending migrations"
   task :abort_if_pending_migrations => :environment do
     if defined? ActiveRecord
-      pending_migrations = ActiveRecord::Migrator.new(:up, 'db/migrate').pending_migrations
-      pending_migrations << Rails.plugins.map do |name, plugin|
+      pending_migrations = Rails.plugins.map do |name, plugin|
         ActiveRecord::Migrator.new(:up, "#{plugin.directory}/db/migrate", nil, name).pending_migrations
       end
+      pending_migrations = ActiveRecord::Migrator.new(:up, 'db/migrate').pending_migrations
       pending_migrations.flatten!
 
       if pending_migrations.any?
